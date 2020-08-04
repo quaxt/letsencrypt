@@ -43,7 +43,7 @@ class Curl {
             CloseableHttpResponse response = httpClient.execute(request);
             StatusLine statusLine = response.getStatusLine();
             Map<String, String> cooked = cook(response.getAllHeaders());
-            Map<String, Object> ret = new Map<>();
+            Map<String, Object> ret = new HashMap<>();
             ret.put("headers", cooked);
             ret.put("reason", statusLine.getReasonPhrase());
             ret.put("status-code", statusLine.getStatusCode());
@@ -61,7 +61,7 @@ class Curl {
         headers.forEach((k, v) -> request.addHeader(k, v));
     }
 
-    private static Map<String, Object> cook(Header[] allHeaders) {
+    private static Map<String, String> cook(Header[] allHeaders) {
         return Arrays.stream(allHeaders).collect(Collectors.toMap(Header::getName, Header::getValue));
     }
 

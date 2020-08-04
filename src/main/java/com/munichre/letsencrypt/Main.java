@@ -1,5 +1,9 @@
 package com.munichre.letsencrypt;
 
+import java.util.Arrays;
+import java.util.List;
+
+
 enum Main {
     INSTANCE;
 
@@ -31,9 +35,9 @@ enum Main {
     public static void main(String[] args) {
                  List<String>    concats = Arrays.asList("mailto:bogus@test.com");
              List<String>    domains = Arrays.asList("mr.quaxt.ie");
-             Object csr = getCsr( "/home/mreilly/wa/mrAcme/pg3",
-                                  "keystore.p12",
-                             "domainKey");
+             // Object csr = getCsr( "/home/mreilly/wa/mrAcme/pg3",
+             //                      "keystore.p12",
+             //                 "domainKey");
     
     }
     // {

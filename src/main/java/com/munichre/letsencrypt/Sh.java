@@ -1,6 +1,10 @@
 package com.munichre.letsencrypt;
 
 import com.google.common.collect.ImmutableMap;
+import java.nio.file.*;
+import java.io.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.Map;
 
 class Sh {
     static CompletableFuture<String> readOutStream(InputStream is) {
@@ -21,12 +25,15 @@ class Sh {
             });
     }
 
-    Map<String, String> sh(Path directory, String... commandArgs) {
-        ProcessBuilder pb =
-            new ProcessBuilder(commandArgs);
-        pb.directory(directory.toFile());
-        Process p = pb.start();
-        return ImmutableMap.of("out", readOutStream(p.getInputStream()),
-                               "err", readOutStream(p.getErrorStream()));
+    static Map<String, String> sh(Path directory, String... commandArgs) {
+        try {
+            Process p = new ProcessBuilder(commandArgs)
+                .directory(directory.toFile())
+                .start();
+            return ImmutableMap.of("out", readOutStream(p.getInputStream()).get(),
+                               "err", readOutStream(p.getErrorStream()).get());
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }
